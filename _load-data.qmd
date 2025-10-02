@@ -1,0 +1,65 @@
+```{r}
+# Below is all old from the penguins default
+# dataset <- redivis::organization("datapages")$dataset("palmerpenguins")
+# penguins <- dataset$table("penguins")$to_tibble()
+# ojs_define(data = penguins)
+```
+
+```{r}
+quarto <- yaml::read_yaml("_quarto.yml")
+
+# load data from redivis table if specified in yaml
+if ("redivis" %in% names(quarto) &&
+    all(c("user", "table") %in% names(quarto$redivis)) && # need user and table
+    any(c("dataset", "project") %in% names(quarto$redivis))) { # need dataset or project
+  if (!is.null(quarto$redivis$dataset)) {
+    # use dataset if provided
+    dataset <- redivis::user(quarto$redivis$user)$dataset(quarto$redivis$dataset)
+  } else {
+    # otherwise use project
+    dataset <- redivis::user(quarto$redivis$user)$project(quarto$redivis$project)
+  }
+  
+  # get table data
+  # (has to be a tibble to work with)
+  table <- dataset$table(quarto$redivis$table)
+  data <- table$to_tibble()
+
+  # get variable metadata
+  # NEW - changed from what it was before to test error
+  vars <- map(table$list_variables(), \(v) {
+  out <- tryCatch(v$get(wait_for_statistics=TRUE)$properties,
+                  error = function(e) NULL)
+  out
+})
+vars <- compact(vars)  # drop NULLs
+  # pass to OJS
+  # (this makes the data available for the javascript environment)
+  ojs_define(data = data)
+  ojs_define(vars = vars)
+  
+} else {
+  ojs_define(data = NULL)
+  ojs_define(vars = NULL)
+}
+```
+
+```{ojs}
+// Below pulls in the Observable library for plotting
+Plot = import("https://esm.sh/@observablehq/plot@0.6.13")
+// Below makes the data easier to access
+d = transpose(data)
+
+// Anything less than 10 unique values will be treated as categorical!
+distinct_cutoff = 10
+
+// Huh below turns categorical vars into a dropdown list
+disc_types = ['string', 'boolean']
+disc_vars = vars.filter(d => disc_types.includes(d.type) && d.statistics.numDistinct <= distinct_cutoff).map(d => [d.label ? d.label : d.name, d.name])
+disc_opts = new Map([['', null]].concat(disc_vars))
+
+// And below creates dropdowns for continuous variables
+cont_types = ['integer', 'float', 'date', 'datetime', 'time']
+cont_vars = vars.filter(d => cont_types.includes(d.type) && d.statistics.numDistinct > distinct_cutoff).map(d => [d.label ? d.label : d.name, d.name])
+cont_opts = new Map(cont_vars)
+```
