@@ -1,5 +1,5 @@
 project:
-  title: "MB1 test" # Browser tab title
+  title: "MB4 test" # Browser tab title
   type: datapage
   output-dir: docs
 
@@ -18,6 +18,6 @@ execute:
   error: false # don't show errors
 
 redivis:
-  user: datapages
-  dataset: Many Babies 1 # changed from palmerpenguins
-  table: 02_validated_output # changed from penguins
+  user: candice_koolhaas001 # changed from datapages
+  dataset: test_mb4 # changed from Many Babies 1
+  table: clean_data # changed from 02_validated_output

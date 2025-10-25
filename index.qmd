@@ -8,7 +8,284 @@ description: |
 
 {{< include _load-data.qmd >}}
 
-{{< include _scatter_hist.qmd >}}
+#### EDIT BELOW IS NEW
+### From mb1 index.qmd
+### want to make similar forest plot but for mb4
+
+```{r meta}
+project <- redivis::user("candice_koolhaas001")$project("test_mb4")
+forest_table <- project$table("clean_data")$to_tibble()
+
+forest_data <- forest_table |>
+  mutate(Method = if_else(method == "", "(Global)", method),
+         meta = str_detect(lab, "Meta-analytic"),
+         lab = if_else(meta, glue("({lab})"), lab),
+         inverse_vars = if_else(meta, max(inverse_vars, na.rm = TRUE),
+                                inverse_vars),
+         age_label = if_else(is.na(age_group), "", glue("[{age_group}]")),
+         y_label = paste(lab, age_label)) |>
+  arrange(Method, desc(meta), effects) |>
+  mutate(order = 1:n())
+
+ojs_define(forest_data = forest_data)
+```
+
+```{r trials}
+lt_fits <- project$table("mb1-lt-model_output")$to_tibble() |>
+  mutate(nae = if_else(nae, "NAE", "non-NAE"),
+         type_nae = paste(trial_type, nae, sep = ", "))
+ojs_define(lt_fits = lt_fits)
+
+dataset <- redivis::user("datapages")$dataset("many_babies_1")
+trial_table <- dataset$table("03_data_trial_main")$to_tibble()
+
+trial_data <- trial_table |>
+  filter(!is.na(looking_time),
+         trial_type != "train") |>
+  mutate(nae = if_else(nae, "NAE", "non-NAE"),
+         type_nae = paste(trial_type, nae, sep = ", ")) |>
+  mutate(method = case_when(
+    method == "singlescreen" ~ "Central fixation",
+    method == "eyetracking" ~ "Eye tracking",
+    method == "hpp" ~ "HPP",
+    TRUE ~ method))
+
+ojs_define(trial_data = trial_data)
+```
+
+:::: {.panel-tabset}
+
+## Meta-analysis
+
+::: {.panel-tabset .nav-pills}
+
+### Plot
+
+::: {.caption}
+Forest plot of the meta-analytic results for infant-directed-speech preference. The standardized __effect size__ [x axis] is shown for each __lab__ and __age group__ [y axis]; error bars indicate 95% confidence intervals. Effects are grouped by __method__ [colors]: central fixation, eye tracking, or head-turn preference procedure (HPP). Larger plotted points correspond to greater __inverse variance__. For each method, the diamond and associated error bars represent the __meta-analytic estimate__ from the method-moderated model and the estimate's 95% confidence interval. The top diamond shows the global meta-analytic estimate and 95% confidence interval from the unmoderated model.
+:::
+
+```{ojs}
+Plot = import("https://esm.sh/@observablehq/plot@0.6.13")
+fontFamily = "Source Sans Pro"
+fontSize = ".75rem"
+
+d = transpose(forest_data)
+
+maxX = d3.max(forest_data.effects_cih)
+pad = 0.1
+
+methodIndeces = d3.rollup(
+  d,
+  (values) => ({Method: values[0].Method, order: d3.min(values, (d) => d.order)}),
+  (d) => d.Method
+)
+
+method_vals = Array.from(methodIndeces.keys()).filter(x => x)
+
+age_sort = (a, b) => parseInt(a.split('-')[0], 10) - parseInt(b.split('-')[0], 10)
+age_vals = Array.from(new Set(forest_data.age_group)).filter(d => d).sort(age_sort)
+```
+
+```{ojs}
+//| panel: input
+viewof methods = Inputs.checkbox(method_vals, {value: method_vals, label: "Methods"})
+viewof ages = Inputs.checkbox(age_vals, {value: age_vals, label: "Age groups"})
+```
+
+```{ojs}
+methodLabels = Array.from(methodIndeces.values()).filter(x => methods.includes(x.Method))
+
+fd = d.filter(d => methods.includes(d.Method))
+      .filter(d => !d.age_group | ages.includes(d.age_group))
+```
+
+```{ojs}
+Plot.plot({
+  style: { fontFamily: fontFamily },
+  marginLeft: 155,
+  width: 800,
+  x: {
+    label: "Effect size",
+    line: true,
+    domain: [d3.min(forest_data.effects_cil) - pad, d3.max(forest_data.effects_cih) + pad],
+  },
+  y: {
+    grid: true,
+    line: true,
+    label: "Lab and age group",
+    labelAnchor: "top",
+    padding: 1,
+    type: "point",
+    fontVariant: (d) => d.meta ? "small-caps" : "normal",
+    tickFormat: (value) => fd.find((d) => d.order === value).y_label,
+  },
+  marks: [
+    Plot.ruleX([0], {stroke: "lightgrey", strokeDasharray: [3, 3]}),
+    Plot.ruleY(fd.filter(d => d.meta), {
+      y: "order",
+      stroke: "lightgrey"
+    }),
+    Plot.ruleX(fd, Plot.pointerY({x: "effects", py: "order", stroke: "Method"})),
+    Plot.ruleY(fd, Plot.pointerY({px: "effects", y: "order", stroke: "lightgrey"})),
+    Plot.link(fd, {
+      y: "order",
+      x1: "effects_cil",
+      x2: "effects_cih"
+    }),
+    Plot.dot(fd.filter(d => d.meta), {
+      x: "effects",
+      y: "order",
+      stroke: "Method",
+      fill: "white",
+      symbol: "diamond",
+      strokeWidth: 2,
+      r: "inverse_vars",
+    }),
+    Plot.dot(fd.filter(d => !d.meta), {
+      x: "effects",
+      y: "order",
+      stroke: "Method",
+      fill: "Method",
+      symbol: "circle",
+      strokeWidth: 2,
+      r: "inverse_vars",
+    }),
+    Plot.text(methodLabels.filter((d) => d.Method == "(Global)"), {
+      x: maxX + 0.1,
+      y: "order",
+      text: "Method",
+      fill: "Method",
+      stroke: "white",
+      strokeWidth: 12,
+      fontWeight: "bold",
+      dy: -6,
+      fontSize: 18,
+      textAnchor: "end"
+    }),
+    Plot.text(methodLabels.filter((d) => d.Method !== "(Global)"), {
+      x: maxX + 0.1,
+      y: "order",
+      text: "Method",
+      fill: "Method",
+      stroke: "white",
+      strokeWidth: 12,
+      fontWeight: "bold",
+      dy: 6,
+      fontSize: 18,
+      textAnchor: "end"
+    }),
+    Plot.tip(fd, Plot.pointerY({
+      x: "effects",
+      y: "order",
+      stroke: "Method",
+      format: { y: null },
+      channels: {
+        Lab: "lab",
+        "Age group": "age_group",
+        "Effect size": (d) => d.effects.toFixed(2),
+        CI: (d) => `[${d.effects_cil.toFixed(2)}, ${d.effects_cih.toFixed(2)}]`,
+      },
+    })),
+  ]
+})
+```
+
+### Data
+
+{{< redivis-table mikabr.mb1.mb1_meta_output >}}
+
+:::
+
+## Aggregated
+
+::: {.panel-tabset .nav-pills}
+
+## Plot
+
+::: {.caption}
+The lines on this plot shows fitted values from a mixed effects model predicting __looking time__ [y axis] from __trial number__ [x axis], __age__ [columns], __method__ [rows], __trial type__ [IDS red vs. ADS blue], and __language group__ [NAE dark vs. non-NAE light].
+:::
+
+```{ojs}
+lt = transpose(lt_fits)
+age_groups = ["3-6 mo", "6-9 mo", "9-12 mo", "12-15 mo"]
+nae_vals = new Map([["North American English (NAE)", "NAE"],
+                    ["Not North American English (non-NAE)", "non-NAE"]])
+                    
+td = transpose(trial_data)
+```
+
+```{ojs}
+//| panel: input
+viewof points = Inputs.toggle({label: "Show data points"})
+
+viewof nae = Inputs.checkbox(nae_vals, {value: Array.from(nae_vals.values())})
+```
+
+```{ojs}
+ltf = lt.filter(d => nae.includes(d.nae))
+tdf = td.filter(d => nae.includes(d.nae))
+
+Plot.plot({
+  style: { fontFamily: fontFamily },
+  marginRight: 90,
+  width: 800,
+  x: { label: "Trial number", ticks: 4 },
+  y: {
+    label: "Looking time (seconds)",
+    domain: [d3.min(trial_data.looking_time), d3.max(trial_data.looking_time)]
+  },
+  fx: { label: "", domain: age_groups },
+  fy: { label: "" },
+  color: {
+    legend: true,
+    range: ["#CA0020", "#F4A582", "#0571B0", "#92C5DE"], // RdBu for 4 values
+    domain: ["IDS, NAE", "IDS, non-NAE", "ADS, NAE", "ADS, non-NAE"]
+  },
+  marks: [
+    Plot.dot(points ? tdf : [], {
+      x: "trial_num",
+      y: "looking_time",
+      fill: "type_nae",
+      fx: "age_group",
+      fy: "method",
+      opacity: 0.4,
+      r: 1
+    }),
+    Plot.line(ltf, {
+      x: "trial_num",
+      y: "fitted",
+      stroke: "type_nae",
+      z: (d) => `${d.trial_type} + ${d.nae}`,
+      fx: "age_group",
+      fy: "method",
+    }),
+    Plot.tip(ltf, Plot.pointer({
+      x: "trial_num",
+      y: "fitted",
+      stroke: "type_nae",
+      z: (d) => `${d.trial_type} + ${d.nae}`,
+      fx: "age_group",
+      fy: "method",
+      format: { x: null, y: null, fx: null, fy: null, stroke: null },
+      channels: { "Trial type": "trial_type", "Language group": "nae" },
+    })),
+  ]
+})
+```
+
+## Data
+
+{{< redivis-table mikabr.mb1.mb1_lt_model_output >}}
+
+{{< redivis-table datapages.many_babies_1.03_data_trial_main >}}
+
+:::
+
+::::
+
+
 
 <!-- {{< include _scatter.qmd >}} -->
 

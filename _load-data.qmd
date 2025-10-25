@@ -1,9 +1,3 @@
-```{r}
-# Below is all old from the penguins default
-# dataset <- redivis::organization("datapages")$dataset("palmerpenguins")
-# penguins <- dataset$table("penguins")$to_tibble()
-# ojs_define(data = penguins)
-```
 
 ```{r}
 quarto <- yaml::read_yaml("_quarto.yml")
