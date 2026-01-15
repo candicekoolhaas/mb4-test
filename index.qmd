@@ -12,7 +12,9 @@ description: |
 ### From mb1 index.qmd
 ### want to make similar forest plot but for mb4
 
-```{r meta}
+Right now it can't find "lab" in the data and is crashing
+
+```{r meta, include = FALSE}
 project <- redivis::user("candice_koolhaas001")$project("test_mb4")
 forest_table <- project$table("clean_data")$to_tibble()
 
@@ -21,8 +23,8 @@ library(stringr)
 
 forest_data <- forest_table |>
   mutate(Method = if_else(method == "", "(Global)", method),
-         #meta = str_detect(lab, "Meta-analytic"),
-         #lab = if_else(meta, glue("({lab})"), lab),
+         meta = str_detect(lab, "Meta-analytic"),
+         lab = if_else(meta, glue("({lab})"), lab),
          inverse_vars = if_else(meta, max(inverse_vars, na.rm = TRUE),
                                 inverse_vars),
          age_label = if_else(is.na(age_group), "", glue("[{age_group}]")),
@@ -33,7 +35,7 @@ forest_data <- forest_table |>
 ojs_define(forest_data = forest_data)
 ```
 
-```{r trials}
+```{r trials, include = FALSE}
 lt_fits <- project$table("mb1-lt-model_output")$to_tibble() |>
   mutate(nae = if_else(nae, "NAE", "non-NAE"),
          type_nae = paste(trial_type, nae, sep = ", "))
@@ -68,7 +70,7 @@ ojs_define(trial_data = trial_data)
 Forest plot of the meta-analytic results for infant-directed-speech preference. The standardized __effect size__ [x axis] is shown for each __lab__ and __age group__ [y axis]; error bars indicate 95% confidence intervals. Effects are grouped by __method__ [colors]: central fixation, eye tracking, or head-turn preference procedure (HPP). Larger plotted points correspond to greater __inverse variance__. For each method, the diamond and associated error bars represent the __meta-analytic estimate__ from the method-moderated model and the estimate's 95% confidence interval. The top diamond shows the global meta-analytic estimate and 95% confidence interval from the unmoderated model.
 :::
 
-```{ojs}
+```{ojs, include = FALSE}
 Plot = import("https://esm.sh/@observablehq/plot@0.6.13")
 fontFamily = "Source Sans Pro"
 fontSize = ".75rem"
@@ -90,20 +92,20 @@ age_sort = (a, b) => parseInt(a.split('-')[0], 10) - parseInt(b.split('-')[0], 1
 age_vals = Array.from(new Set(forest_data.age_group)).filter(d => d).sort(age_sort)
 ```
 
-```{ojs}
+```{ojs, include = FALSE}
 //| panel: input
 viewof methods = Inputs.checkbox(method_vals, {value: method_vals, label: "Methods"})
 viewof ages = Inputs.checkbox(age_vals, {value: age_vals, label: "Age groups"})
 ```
 
-```{ojs}
+```{ojs, include = FALSE}
 methodLabels = Array.from(methodIndeces.values()).filter(x => methods.includes(x.Method))
 
 fd = d.filter(d => methods.includes(d.Method))
       .filter(d => !d.age_group | ages.includes(d.age_group))
 ```
 
-```{ojs}
+```{ojs, include = FALSE}
 Plot.plot({
   style: { fontFamily: fontFamily },
   marginLeft: 155,
@@ -210,7 +212,7 @@ Plot.plot({
 The lines on this plot shows fitted values from a mixed effects model predicting __looking time__ [y axis] from __trial number__ [x axis], __age__ [columns], __method__ [rows], __trial type__ [IDS red vs. ADS blue], and __language group__ [NAE dark vs. non-NAE light].
 :::
 
-```{ojs}
+```{ojs, include = FALSE}
 lt = transpose(lt_fits)
 age_groups = ["3-6 mo", "6-9 mo", "9-12 mo", "12-15 mo"]
 nae_vals = new Map([["North American English (NAE)", "NAE"],
@@ -219,14 +221,14 @@ nae_vals = new Map([["North American English (NAE)", "NAE"],
 td = transpose(trial_data)
 ```
 
-```{ojs}
+```{ojs, include = FALSE}
 //| panel: input
 viewof points = Inputs.toggle({label: "Show data points"})
 
 viewof nae = Inputs.checkbox(nae_vals, {value: Array.from(nae_vals.values())})
 ```
 
-```{ojs}
+```{ojs, include = FALSE}
 ltf = lt.filter(d => nae.includes(d.nae))
 tdf = td.filter(d => nae.includes(d.nae))
 
