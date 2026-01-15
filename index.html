@@ -212,22 +212,22 @@ background: var(--bs-light);
 
 
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="1" data-source-offset="-54"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Plot <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/@observablehq/plot@0.6.13"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Below makes the data easier to access</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fu">transpose</span>(data)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Anything less than 10 unique values will be treated as categorical!</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>distinct_cutoff <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Huh below turns categorical vars into a dropdown list</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>disc_types <span class="op">=</span> [<span class="st">'string'</span><span class="op">,</span> <span class="st">'boolean'</span>]</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>disc_vars <span class="op">=</span> vars<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> disc_types<span class="op">.</span><span class="fu">includes</span>(d<span class="op">.</span><span class="at">type</span>) <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">statistics</span><span class="op">.</span><span class="at">numDistinct</span> <span class="op">&lt;=</span> distinct_cutoff)<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> [d<span class="op">.</span><span class="at">label</span> <span class="op">?</span> d<span class="op">.</span><span class="at">label</span> <span class="op">:</span> d<span class="op">.</span><span class="at">name</span><span class="op">,</span> d<span class="op">.</span><span class="at">name</span>])</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>disc_opts <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>([[<span class="st">''</span><span class="op">,</span> <span class="kw">null</span>]]<span class="op">.</span><span class="fu">concat</span>(disc_vars))</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">// And below creates dropdowns for continuous variables</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>cont_types <span class="op">=</span> [<span class="st">'integer'</span><span class="op">,</span> <span class="st">'float'</span><span class="op">,</span> <span class="st">'date'</span><span class="op">,</span> <span class="st">'datetime'</span><span class="op">,</span> <span class="st">'time'</span>]</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>cont_vars <span class="op">=</span> vars<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> cont_types<span class="op">.</span><span class="fu">includes</span>(d<span class="op">.</span><span class="at">type</span>) <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">statistics</span><span class="op">.</span><span class="at">numDistinct</span> <span class="op">&gt;</span> distinct_cutoff)<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> [d<span class="op">.</span><span class="at">label</span> <span class="op">?</span> d<span class="op">.</span><span class="at">label</span> <span class="op">:</span> d<span class="op">.</span><span class="at">name</span><span class="op">,</span> d<span class="op">.</span><span class="at">name</span>])</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>cont_opts <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(cont_vars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="77" data-source-offset="-54"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 76;"><span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>Plot <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/@observablehq/plot@0.6.13"</span>)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="co">// Below makes the data easier to access</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fu">transpose</span>(data)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co">// Anything less than 10 unique values will be treated as categorical!</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>distinct_cutoff <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="co">// Huh below turns categorical vars into a dropdown list</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>disc_types <span class="op">=</span> [<span class="st">'string'</span><span class="op">,</span> <span class="st">'boolean'</span>]</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>disc_vars <span class="op">=</span> vars<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> disc_types<span class="op">.</span><span class="fu">includes</span>(d<span class="op">.</span><span class="at">type</span>) <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">statistics</span><span class="op">.</span><span class="at">numDistinct</span> <span class="op">&lt;=</span> distinct_cutoff)<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> [d<span class="op">.</span><span class="at">label</span> <span class="op">?</span> d<span class="op">.</span><span class="at">label</span> <span class="op">:</span> d<span class="op">.</span><span class="at">name</span><span class="op">,</span> d<span class="op">.</span><span class="at">name</span>])</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>disc_opts <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>([[<span class="st">''</span><span class="op">,</span> <span class="kw">null</span>]]<span class="op">.</span><span class="fu">concat</span>(disc_vars))</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="co">// And below creates dropdowns for continuous variables</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>cont_types <span class="op">=</span> [<span class="st">'integer'</span><span class="op">,</span> <span class="st">'float'</span><span class="op">,</span> <span class="st">'date'</span><span class="op">,</span> <span class="st">'datetime'</span><span class="op">,</span> <span class="st">'time'</span>]</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>cont_vars <span class="op">=</span> vars<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> cont_types<span class="op">.</span><span class="fu">includes</span>(d<span class="op">.</span><span class="at">type</span>) <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">statistics</span><span class="op">.</span><span class="at">numDistinct</span> <span class="op">&gt;</span> distinct_cutoff)<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> [d<span class="op">.</span><span class="at">label</span> <span class="op">?</span> d<span class="op">.</span><span class="at">label</span> <span class="op">:</span> d<span class="op">.</span><span class="at">name</span><span class="op">,</span> d<span class="op">.</span><span class="at">name</span>])</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>cont_opts <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(cont_vars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -292,140 +292,47 @@ background: var(--bs-light);
 </div>
 </div>
 </div>
-<div class="cell panel-input card bg-light p-2">
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="2" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 1;"><span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>viewof x_var <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(cont_opts<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(cont_opts<span class="op">.</span><span class="fu">values</span>())[<span class="dv">0</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"X axis"</span>})</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>viewof y_var <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(cont_opts<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(cont_opts<span class="op">.</span><span class="fu">values</span>())[<span class="dv">1</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Y axis"</span>})</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>viewof color_var <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(disc_opts<span class="op">,</span> {<span class="dt">value</span><span class="op">:</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>(disc_opts<span class="op">.</span><span class="fu">values</span>())[<span class="dv">1</span>]<span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Color"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-1" data-nodetype="declaration">
-
+<section id="edit-below-is-new" class="level4">
+<h4 class="anchored" data-anchor-id="edit-below-is-new">EDIT BELOW IS NEW</h4>
+</section>
+<section id="from-mb1-index.qmd" class="level3">
+<h3 class="anchored" data-anchor-id="from-mb1-index.qmd">From mb1 index.qmd</h3>
+</section>
+<section id="want-to-make-similar-forest-plot-but-for-mb4" class="level3">
+<h3 class="anchored" data-anchor-id="want-to-make-similar-forest-plot-but-for-mb4">want to make similar forest plot but for mb4</h3>
+<p>Right now it can’t find “lab” in the data and is crashing</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Meta-analysis</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Aggregated</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="tabset-margin-container"></div><div class="panel-tabset nav-pills">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Data</a></li></ul>
+<div class="tab-content nav-pills">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="caption">
+<p>Forest plot of the meta-analytic results for infant-directed-speech preference. The standardized <strong>effect size</strong> [x axis] is shown for each <strong>lab</strong> and <strong>age group</strong> [y axis]; error bars indicate 95% confidence intervals. Effects are grouped by <strong>method</strong> [colors]: central fixation, eye tracking, or head-turn preference procedure (HPP). Larger plotted points correspond to greater <strong>inverse variance</strong>. For each method, the diamond and associated error bars represent the <strong>meta-analytic estimate</strong> from the method-moderated model and the estimate’s 95% confidence interval. The top diamond shows the global meta-analytic estimate and 95% confidence interval from the unmoderated model.</p>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<iframe width="100%" height="800" allow="fullscreen" src="https://redivis.com/embed/tables/mikabr.mb1.mb1_meta_output#cells"></iframe>
 </div>
 </div>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-2" data-nodetype="declaration">
-
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="tabset-margin-container"></div><div class="panel-tabset nav-pills">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Data</a></li></ul>
+<div class="tab-content nav-pills">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="caption">
+<p>The lines on this plot shows fitted values from a mixed effects model predicting <strong>looking time</strong> [y axis] from <strong>trial number</strong> [x axis], <strong>age</strong> [columns], <strong>method</strong> [rows], <strong>trial type</strong> [IDS red vs.&nbsp;ADS blue], and <strong>language group</strong> [NAE dark vs.&nbsp;non-NAE light].</p>
 </div>
 </div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-3" data-nodetype="declaration">
-
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<iframe width="100%" height="800" allow="fullscreen" src="https://redivis.com/embed/tables/mikabr.mb1.mb1_lt_model_output#cells"></iframe>
+<iframe width="100%" height="800" allow="fullscreen" src="https://redivis.com/embed/tables/datapages.many_babies_1.03_data_trial_main#cells"></iframe>
 </div>
 </div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="1" data-source-offset="-19"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>default_color <span class="op">=</span> d3<span class="op">.</span><span class="at">schemeCategory10</span>[<span class="dv">0</span>]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt_color <span class="op">=</span> color_var <span class="op">||</span> default_color</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Gets all the variables</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>all_vars <span class="op">=</span> cont_vars<span class="op">.</span><span class="fu">concat</span>(disc_vars)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>channels <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">fromEntries</span>(all_vars<span class="op">.</span><span class="fu">map</span>(k <span class="kw">=&gt;</span> [k[<span class="dv">1</span>]<span class="op">,</span> k[<span class="dv">1</span>]]))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">// This one makes the scatter plot</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>viewof scatter <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontFamily</span><span class="op">:</span> <span class="st">"var(--sans-serif)"</span> }<span class="op">,</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">inset</span><span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>   <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> { <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">""</span> }<span class="op">,</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">color</span><span class="op">:</span> { <span class="dt">legend</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">dot</span>(d<span class="op">,</span> {</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> x_var<span class="op">,</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> y_var<span class="op">,</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">stroke</span><span class="op">:</span> plt_color<span class="op">,</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">tip</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">channels</span><span class="op">:</span> channels</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  ]</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">// This one makes the X variable histogram</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>viewof x_hist <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontFamily</span><span class="op">:</span> <span class="st">"var(--sans-serif)"</span> }<span class="op">,</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">640</span><span class="op">/</span><span class="dv">2</span><span class="op">,</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> { <span class="dt">tickFormat</span><span class="op">:</span> <span class="st">""</span> }<span class="op">,</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> { <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(d<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> x_var<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> plt_color}))<span class="op">,</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  ]</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">// This one makes the Y variable histogram</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>viewof y_hist <span class="op">=</span> Plot<span class="op">.</span><span class="fu">plot</span>({</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> { <span class="dt">fontFamily</span><span class="op">:</span> <span class="st">"var(--sans-serif)"</span> }<span class="op">,</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="dt">width</span><span class="op">:</span> <span class="dv">640</span><span class="op">/</span><span class="dv">2</span><span class="op">,</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> { <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">rectY</span>(d<span class="op">,</span> Plot<span class="op">.</span><span class="fu">binX</span>({<span class="dt">y</span><span class="op">:</span> <span class="st">"count"</span>}<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> y_var<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> plt_color}))<span class="op">,</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">ruleY</span>([<span class="dv">0</span>])</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  ]</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co">// This sets the placement</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;div style="display: flex; flex-wrap: wrap; align-items: flex-end;"&gt;</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="vs"> &lt;div style="flex-basis: 25%"&gt; </span><span class="sc">${</span>viewof y_hist<span class="sc">}</span><span class="vs"> &lt;/div&gt;</span></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="vs"> &lt;div style="flex-basis: 50%"&gt; </span><span class="sc">${</span>viewof scatter<span class="sc">}</span><span class="vs"> &lt;/div&gt;</span></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="vs"> &lt;div style="flex-basis: 25%"&gt; </span><span class="sc">${</span>viewof x_hist<span class="sc">}</span><span class="vs"> &lt;/div&gt;</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/div&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-3" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-4" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-5" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-6" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-7" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-8" data-nodetype="expression">
-
 </div>
 </div>
 </div>
@@ -434,10 +341,11 @@ background: var(--bs-light);
 <!-- {{< include _hist.qmd >}} -->
 
 
+</section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vIEJlbG93IHB1bGxzIGluIHRoZSBPYnNlcnZhYmxlIGxpYnJhcnkgZm9yIHBsb3R0aW5nXG5QbG90ID0gaW1wb3J0KFwiaHR0cHM6Ly9lc20uc2gvQG9ic2VydmFibGVocS9wbG90QDAuNi4xM1wiKVxuLy8gQmVsb3cgbWFrZXMgdGhlIGRhdGEgZWFzaWVyIHRvIGFjY2Vzc1xuZCA9IHRyYW5zcG9zZShkYXRhKVxuXG4vLyBBbnl0aGluZyBsZXNzIHRoYW4gMTAgdW5pcXVlIHZhbHVlcyB3aWxsIGJlIHRyZWF0ZWQgYXMgY2F0ZWdvcmljYWwhXG5kaXN0aW5jdF9jdXRvZmYgPSAxMFxuXG4vLyBIdWggYmVsb3cgdHVybnMgY2F0ZWdvcmljYWwgdmFycyBpbnRvIGEgZHJvcGRvd24gbGlzdFxuZGlzY190eXBlcyA9IFsnc3RyaW5nJywgJ2Jvb2xlYW4nXVxuZGlzY192YXJzID0gdmFycy5maWx0ZXIoZCA9PiBkaXNjX3R5cGVzLmluY2x1ZGVzKGQudHlwZSkgJiYgZC5zdGF0aXN0aWNzLm51bURpc3RpbmN0IDw9IGRpc3RpbmN0X2N1dG9mZikubWFwKGQgPT4gW2QubGFiZWwgPyBkLmxhYmVsIDogZC5uYW1lLCBkLm5hbWVdKVxuZGlzY19vcHRzID0gbmV3IE1hcChbWycnLCBudWxsXV0uY29uY2F0KGRpc2NfdmFycykpXG5cbi8vIEFuZCBiZWxvdyBjcmVhdGVzIGRyb3Bkb3ducyBmb3IgY29udGludW91cyB2YXJpYWJsZXNcbmNvbnRfdHlwZXMgPSBbJ2ludGVnZXInLCAnZmxvYXQnLCAnZGF0ZScsICdkYXRldGltZScsICd0aW1lJ11cbmNvbnRfdmFycyA9IHZhcnMuZmlsdGVyKGQgPT4gY29udF90eXBlcy5pbmNsdWRlcyhkLnR5cGUpICYmIGQuc3RhdGlzdGljcy5udW1EaXN0aW5jdCA+IGRpc3RpbmN0X2N1dG9mZikubWFwKGQgPT4gW2QubGFiZWwgPyBkLmxhYmVsIDogZC5uYW1lLCBkLm5hbWVdKVxuY29udF9vcHRzID0gbmV3IE1hcChjb250X3ZhcnMpXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbnZpZXdvZiB4X3ZhciA9IElucHV0cy5zZWxlY3QoY29udF9vcHRzLCB7dmFsdWU6IEFycmF5LmZyb20oY29udF9vcHRzLnZhbHVlcygpKVswXSwgbGFiZWw6IFwiWCBheGlzXCJ9KVxudmlld29mIHlfdmFyID0gSW5wdXRzLnNlbGVjdChjb250X29wdHMsIHt2YWx1ZTogQXJyYXkuZnJvbShjb250X29wdHMudmFsdWVzKCkpWzFdLCBsYWJlbDogXCJZIGF4aXNcIn0pXG52aWV3b2YgY29sb3JfdmFyID0gSW5wdXRzLnNlbGVjdChkaXNjX29wdHMsIHt2YWx1ZTogQXJyYXkuZnJvbShkaXNjX29wdHMudmFsdWVzKCkpWzFdLCBsYWJlbDogXCJDb2xvclwifSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vIFNldHMgdGhlIGNvbG9yc1xuZGVmYXVsdF9jb2xvciA9IGQzLnNjaGVtZUNhdGVnb3J5MTBbMF1cbnBsdF9jb2xvciA9IGNvbG9yX3ZhciB8fCBkZWZhdWx0X2NvbG9yXG5cbi8vIEdldHMgYWxsIHRoZSB2YXJpYWJsZXNcbmFsbF92YXJzID0gY29udF92YXJzLmNvbmNhdChkaXNjX3ZhcnMpXG5jaGFubmVscyA9IE9iamVjdC5mcm9tRW50cmllcyhhbGxfdmFycy5tYXAoayA9PiBba1sxXSwga1sxXV0pKVxuXG4vLyBUaGlzIG9uZSBtYWtlcyB0aGUgc2NhdHRlciBwbG90XG52aWV3b2Ygc2NhdHRlciA9IFBsb3QucGxvdCh7XG4gIHN0eWxlOiB7IGZvbnRGYW1pbHk6IFwidmFyKC0tc2Fucy1zZXJpZilcIiB9LFxuICBpbnNldDogOCxcbiAgIGdyaWQ6IHRydWUsXG4gICAgICB4OiB7IHRpY2tGb3JtYXQ6IFwiXCIgfSxcbiAgY29sb3I6IHsgbGVnZW5kOiB0cnVlIH0sXG4gIG1hcmtzOiBbXG4gICAgUGxvdC5kb3QoZCwge1xuICAgICAgeDogeF92YXIsXG4gICAgICB5OiB5X3ZhcixcbiAgICAgIHN0cm9rZTogcGx0X2NvbG9yLFxuICAgICAgdGlwOiB0cnVlLFxuICAgICAgY2hhbm5lbHM6IGNoYW5uZWxzXG4gICAgfSksXG4gIF1cbn0pXG5cbi8vIFRoaXMgb25lIG1ha2VzIHRoZSBYIHZhcmlhYmxlIGhpc3RvZ3JhbVxudmlld29mIHhfaGlzdCA9IFBsb3QucGxvdCh7XG4gIHN0eWxlOiB7IGZvbnRGYW1pbHk6IFwidmFyKC0tc2Fucy1zZXJpZilcIiB9LFxuICB3aWR0aDogNjQwLzIsXG4gICAgICB4OiB7IHRpY2tGb3JtYXQ6IFwiXCIgfSxcbiAgICAgIHk6IHsgZ3JpZDogdHJ1ZSB9LFxuICBtYXJrczogW1xuICAgIFBsb3QucmVjdFkoZCwgUGxvdC5iaW5YKHt5OiBcImNvdW50XCJ9LCB7eDogeF92YXIsIGZpbGw6IHBsdF9jb2xvcn0pKSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXVxufSlcblxuLy8gVGhpcyBvbmUgbWFrZXMgdGhlIFkgdmFyaWFibGUgaGlzdG9ncmFtXG52aWV3b2YgeV9oaXN0ID0gUGxvdC5wbG90KHtcbiAgc3R5bGU6IHsgZm9udEZhbWlseTogXCJ2YXIoLS1zYW5zLXNlcmlmKVwiIH0sXG4gIHdpZHRoOiA2NDAvMixcbiAgICAgIHk6IHsgZ3JpZDogdHJ1ZSB9LFxuICBtYXJrczogW1xuICAgIFBsb3QucmVjdFkoZCwgUGxvdC5iaW5YKHt5OiBcImNvdW50XCJ9LCB7eDogeV92YXIsIGZpbGw6IHBsdF9jb2xvcn0pKSxcbiAgICBQbG90LnJ1bGVZKFswXSlcbiAgXVxufSlcblxuLy8gVGhpcyBzZXRzIHRoZSBwbGFjZW1lbnRcbmh0bWxgPGRpdiBzdHlsZT1cImRpc3BsYXk6IGZsZXg7IGZsZXgtd3JhcDogd3JhcDsgYWxpZ24taXRlbXM6IGZsZXgtZW5kO1wiPlxuIDxkaXYgc3R5bGU9XCJmbGV4LWJhc2lzOiAyNSVcIj4gJHt2aWV3b2YgeV9oaXN0fSA8L2Rpdj5cbiA8ZGl2IHN0eWxlPVwiZmxleC1iYXNpczogNTAlXCI+ICR7dmlld29mIHNjYXR0ZXJ9IDwvZGl2PlxuIDxkaXYgc3R5bGU9XCJmbGV4LWJhc2lzOiAyNSVcIj4gJHt2aWV3b2YgeF9oaXN0fSA8L2Rpdj5cbjwvZGl2PmBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgneF92YXInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgneV92YXInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnY29sb3JfdmFyJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NjYXR0ZXInKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgneF9oaXN0JykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3lfaGlzdCcpIn1dfQ==
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vIEJlbG93IHB1bGxzIGluIHRoZSBPYnNlcnZhYmxlIGxpYnJhcnkgZm9yIHBsb3R0aW5nXG5QbG90ID0gaW1wb3J0KFwiaHR0cHM6Ly9lc20uc2gvQG9ic2VydmFibGVocS9wbG90QDAuNi4xM1wiKVxuLy8gQmVsb3cgbWFrZXMgdGhlIGRhdGEgZWFzaWVyIHRvIGFjY2Vzc1xuZCA9IHRyYW5zcG9zZShkYXRhKVxuXG4vLyBBbnl0aGluZyBsZXNzIHRoYW4gMTAgdW5pcXVlIHZhbHVlcyB3aWxsIGJlIHRyZWF0ZWQgYXMgY2F0ZWdvcmljYWwhXG5kaXN0aW5jdF9jdXRvZmYgPSAxMFxuXG4vLyBIdWggYmVsb3cgdHVybnMgY2F0ZWdvcmljYWwgdmFycyBpbnRvIGEgZHJvcGRvd24gbGlzdFxuZGlzY190eXBlcyA9IFsnc3RyaW5nJywgJ2Jvb2xlYW4nXVxuZGlzY192YXJzID0gdmFycy5maWx0ZXIoZCA9PiBkaXNjX3R5cGVzLmluY2x1ZGVzKGQudHlwZSkgJiYgZC5zdGF0aXN0aWNzLm51bURpc3RpbmN0IDw9IGRpc3RpbmN0X2N1dG9mZikubWFwKGQgPT4gW2QubGFiZWwgPyBkLmxhYmVsIDogZC5uYW1lLCBkLm5hbWVdKVxuZGlzY19vcHRzID0gbmV3IE1hcChbWycnLCBudWxsXV0uY29uY2F0KGRpc2NfdmFycykpXG5cbi8vIEFuZCBiZWxvdyBjcmVhdGVzIGRyb3Bkb3ducyBmb3IgY29udGludW91cyB2YXJpYWJsZXNcbmNvbnRfdHlwZXMgPSBbJ2ludGVnZXInLCAnZmxvYXQnLCAnZGF0ZScsICdkYXRldGltZScsICd0aW1lJ11cbmNvbnRfdmFycyA9IHZhcnMuZmlsdGVyKGQgPT4gY29udF90eXBlcy5pbmNsdWRlcyhkLnR5cGUpICYmIGQuc3RhdGlzdGljcy5udW1EaXN0aW5jdCA+IGRpc3RpbmN0X2N1dG9mZikubWFwKGQgPT4gW2QubGFiZWwgPyBkLmxhYmVsIDogZC5uYW1lLCBkLm5hbWVdKVxuY29udF9vcHRzID0gbmV3IE1hcChjb250X3ZhcnMpXG4ifV19
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
