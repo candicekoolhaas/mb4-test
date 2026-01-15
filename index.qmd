@@ -21,8 +21,8 @@ library(stringr)
 
 forest_data <- forest_table |>
   mutate(Method = if_else(method == "", "(Global)", method),
-         meta = str_detect(lab, "Meta-analytic"),
-         lab = if_else(meta, glue("({lab})"), lab),
+         #meta = str_detect(lab, "Meta-analytic"),
+         #lab = if_else(meta, glue("({lab})"), lab),
          inverse_vars = if_else(meta, max(inverse_vars, na.rm = TRUE),
                                 inverse_vars),
          age_label = if_else(is.na(age_group), "", glue("[{age_group}]")),
