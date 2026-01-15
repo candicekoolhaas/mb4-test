@@ -16,6 +16,8 @@ description: |
 project <- redivis::user("candice_koolhaas001")$project("test_mb4")
 forest_table <- project$table("clean_data")$to_tibble()
 
+library(dplyr)
+
 forest_data <- forest_table |>
   mutate(Method = if_else(method == "", "(Global)", method),
          meta = str_detect(lab, "Meta-analytic"),
