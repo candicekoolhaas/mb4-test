@@ -5,16 +5,18 @@ description: |
   Seeing what I can do with datapages!
 ---
 
-
 {{< include _load-data.qmd >}}
 
 #### EDIT BELOW IS NEW
+
 ### From mb1 index.qmd
+
 ### want to make similar forest plot but for mb4
 
 Right now it can't find "lab" in the data and is crashing
 
-```{r meta, include = FALSE}
+```{r meta, include=FALSE}
+#| eval: false
 project <- redivis::user("candice_koolhaas001")$project("test_mb4")
 forest_table <- project$table("clean_data")$to_tibble()
 
@@ -36,6 +38,8 @@ ojs_define(forest_data = forest_data)
 ```
 
 ```{r trials, include = FALSE}
+#| eval: false
+
 lt_fits <- project$table("mb1-lt-model_output")$to_tibble() |>
   mutate(nae = if_else(nae, "NAE", "non-NAE"),
          type_nae = paste(trial_type, nae, sep = ", "))
@@ -58,19 +62,19 @@ trial_data <- trial_table |>
 ojs_define(trial_data = trial_data)
 ```
 
-:::: {.panel-tabset}
-
+::::::: panel-tabset
 ## Meta-analysis
 
-::: {.panel-tabset .nav-pills}
-
+:::: {.panel-tabset .nav-pills}
 ### Plot
 
-::: {.caption}
-Forest plot of the meta-analytic results for infant-directed-speech preference. The standardized __effect size__ [x axis] is shown for each __lab__ and __age group__ [y axis]; error bars indicate 95% confidence intervals. Effects are grouped by __method__ [colors]: central fixation, eye tracking, or head-turn preference procedure (HPP). Larger plotted points correspond to greater __inverse variance__. For each method, the diamond and associated error bars represent the __meta-analytic estimate__ from the method-moderated model and the estimate's 95% confidence interval. The top diamond shows the global meta-analytic estimate and 95% confidence interval from the unmoderated model.
+::: caption
+Forest plot of the meta-analytic results for infant-directed-speech preference. The standardized **effect size** \[x axis\] is shown for each **lab** and **age group** \[y axis\]; error bars indicate 95% confidence intervals. Effects are grouped by **method** \[colors\]: central fixation, eye tracking, or head-turn preference procedure (HPP). Larger plotted points correspond to greater **inverse variance**. For each method, the diamond and associated error bars represent the **meta-analytic estimate** from the method-moderated model and the estimate's 95% confidence interval. The top diamond shows the global meta-analytic estimate and 95% confidence interval from the unmoderated model.
 :::
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 Plot = import("https://esm.sh/@observablehq/plot@0.6.13")
 fontFamily = "Source Sans Pro"
 fontSize = ".75rem"
@@ -93,12 +97,16 @@ age_vals = Array.from(new Set(forest_data.age_group)).filter(d => d).sort(age_so
 ```
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 //| panel: input
 viewof methods = Inputs.checkbox(method_vals, {value: method_vals, label: "Methods"})
 viewof ages = Inputs.checkbox(age_vals, {value: age_vals, label: "Age groups"})
 ```
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 methodLabels = Array.from(methodIndeces.values()).filter(x => methods.includes(x.Method))
 
 fd = d.filter(d => methods.includes(d.Method))
@@ -106,6 +114,8 @@ fd = d.filter(d => methods.includes(d.Method))
 ```
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 Plot.plot({
   style: { fontFamily: fontFamily },
   marginLeft: 155,
@@ -199,20 +209,20 @@ Plot.plot({
 ### Data
 
 {{< redivis-table mikabr.mb1.mb1_meta_output >}}
-
-:::
+::::
 
 ## Aggregated
 
-::: {.panel-tabset .nav-pills}
-
+:::: {.panel-tabset .nav-pills}
 ## Plot
 
-::: {.caption}
-The lines on this plot shows fitted values from a mixed effects model predicting __looking time__ [y axis] from __trial number__ [x axis], __age__ [columns], __method__ [rows], __trial type__ [IDS red vs. ADS blue], and __language group__ [NAE dark vs. non-NAE light].
+::: caption
+The lines on this plot shows fitted values from a mixed effects model predicting **looking time** \[y axis\] from **trial number** \[x axis\], **age** \[columns\], **method** \[rows\], **trial type** \[IDS red vs. ADS blue\], and **language group** \[NAE dark vs. non-NAE light\].
 :::
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 lt = transpose(lt_fits)
 age_groups = ["3-6 mo", "6-9 mo", "9-12 mo", "12-15 mo"]
 nae_vals = new Map([["North American English (NAE)", "NAE"],
@@ -222,6 +232,8 @@ td = transpose(trial_data)
 ```
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 //| panel: input
 viewof points = Inputs.toggle({label: "Show data points"})
 
@@ -229,6 +241,8 @@ viewof nae = Inputs.checkbox(nae_vals, {value: Array.from(nae_vals.values())})
 ```
 
 ```{ojs, include = FALSE}
+#| eval: false
+
 ltf = lt.filter(d => nae.includes(d.nae))
 tdf = td.filter(d => nae.includes(d.nae))
 
@@ -285,14 +299,9 @@ Plot.plot({
 {{< redivis-table mikabr.mb1.mb1_lt_model_output >}}
 
 {{< redivis-table datapages.many_babies_1.03_data_trial_main >}}
-
-:::
-
 ::::
-
-
+:::::::
 
 <!-- {{< include _scatter.qmd >}} -->
 
 <!-- {{< include _hist.qmd >}} -->
-
